@@ -1,4 +1,4 @@
-$.ajaxSetup({async: false});
+﻿$.ajaxSetup({async: false});
 
 var map,
         currentPlayIndex = false,
@@ -10,7 +10,7 @@ $.getJSON('Dengue.json', function (data) {
 function initialize() {
 
     /*map setting*/
-    $('#map-canvas').height(window.outerHeight / 2.2);
+    $('#map-canvas').height(window.outerHeight / 1.5);
 
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         zoom: 12,
@@ -27,13 +27,15 @@ function initialize() {
                 countyId = value.getProperty('COUNTY_ID'),
                 townId = value.getProperty('TOWN_ID'),
                 count = 0;
+		
         if (DengueTW[key]) {
             DengueTW[key].forEach(function (val) {
                 count += val[1];
             });
         }
-        value.setProperty('num', count);
-        
+
+        value.setProperty('num', count); 
+    
         if(countyId.length === 2) {
             countyId += '000';
         }
@@ -66,7 +68,9 @@ function initialize() {
     $('div#listNoneCunli').html(block);
 
     map.data.setStyle(function (feature) {
-        color = ColorBar(feature.getProperty('num'));
+
+	color = ColorBar(feature.getProperty('num'), feature.getProperty('Shape_Area')); 
+        
         return {
             fillColor: color,
             fillOpacity: 0.6,
@@ -79,7 +83,11 @@ function initialize() {
         var Cunli = event.feature.getProperty('C_Name') + event.feature.getProperty('T_Name') + event.feature.getProperty('V_Name');
         map.data.revertStyle();
         map.data.overrideStyle(event.feature, {fillColor: 'white'});
-        $('#content').html('<div>' + Cunli + ' ：' + event.feature.getProperty('num') + ' 例</div>').removeClass('text-muted');
+
+	area = parseInt(event.feature.getProperty('Shape_Area')*10000000)/1000;
+        density = parseInt(event.feature.getProperty('num') / area);
+
+        $('#content').html('<div>' + Cunli + ' ：' + event.feature.getProperty('num') + ' 例 (' + area + ' km2, ' + density + ')</div>').removeClass('text-muted');
     });
 
     map.data.addListener('mouseout', function (event) {

@@ -1,13 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
-        <title>台灣2015登革熱地圖</title>
+        <title>登革熱密度地圖 v1.0</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
-        <meta property="og:title" content="台灣2015登革熱地圖">
-        <meta property="og:description" content="台灣2015登革熱地圖以高雄登革熱地圖為基礎修改，以村里界圖呈現最新的登革熱疫情統計">
+        <meta property="og:title" content="登革熱密度地圖">
+        <meta property="og:description" content="登革熱密度地圖以 kiang 登革熱地圖為基礎修改">
         <meta property="og:type" content="website">
-        <meta property="og:image" content="http://kiang.github.io/TainanDengueMap/og_image_0821.png">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <style>
             html, body {
@@ -44,35 +43,31 @@
         </style>
     </head>
     <body>
-        <script>
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id))
-                    return;
-                js = d.createElement(s);
-                js.id = id;
-                js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=1393405437614114&version=v2.3";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, "script", "facebook-jssdk"));
-        </script>
         <div class="container">
             <div class="row">
                 <p class="hidden-sm hidden-xs">&nbsp;</p>
-                <div id="map-canvas" class="col-md-12"></div>
+		<div id="map-canvas" class="col-md-12"></div>
                 <div id="detail" class="col-md-12">
                     <div class="col-md-8 col-sm-12 col-xs-12">
                         <h3 id="title"></h3>
-                        <div>病例數
-                            <span class="colorBox" style="background-color: white;"></span>&nbsp;0
-                            <span class="colorBox" style="background-color: green;"></span>&nbsp;1~2
-                            <span class="colorBox" style="background-color: yellow;"></span>&nbsp;3~10
+                        <div>人數
+                            <span class="colorBox" style="background-color: white;"></span>0
+                            <span class="colorBox" style="background-color: #87cefa;"></span>1人
+                            <span class="colorBox" style="background-color: #00bfff;"></span>2~4人
+                        </div>
+                        <div>密度
+                            <span class="colorBox" style="background-color: #00FF00;"></span><16
+                            <span class="colorBox" style="background-color: #00CC00;"></span>16~32
                             <br class="hidden-md hidden-lg">
-                            <span class="colorBox" style="background-color: orange;"></span>&nbsp;11~20
-                            <span class="colorBox" style="background-color: red;"></span>&nbsp;21~50
-                            <span class="colorBox" style="background-color: purple;"></span>&nbsp;>51~100
+                            <span class="colorBox" style="background-color: #FFFF00;"></span>32~64
+                            <span class="colorBox" style="background-color: #ffd700;"></span>64~128
                             <br class="hidden-md hidden-lg">
-                            <span class="colorBox" style="background-color: darkblue;"></span>&nbsp;101~200
-                            <span class="colorBox" style="background-color: black;"></span>&nbsp;>200
+                            <span class="colorBox" style="background-color: #FF8C00;"></span>128~256
+                            <span class="colorBox" style="background-color: #FF6600;"></span>256~512
+                            <br class="hidden-md hidden-lg">
+                            <span class="colorBox" style="background-color: #FF0000;"></span>512~1024
+                            <span class="colorBox" style="background-color: #CC0000;"></span>1024~2048
+                            <span class="colorBox" style="background-color: #a020f0;"></span>>2048
                         </div>
                         <div style="float: right;">快速定位
                             <div class="btn-group">
@@ -100,7 +95,7 @@
                         </div>
                         <div class="clearfix"></div>
                         <hr>
-                        <h2 id="content" class="text-muted">在地圖上滑動或點選以顯示數據</h2>
+			<h2 id="content" class="text-muted">在地圖上滑動或點選以顯示數據</h2>
                         <div class="btn-group btn-group-justified">
                             <a class="btn btn-primary btn-lg" id="playButton1" href="#">
                                 <span class="glyphicon glyphicon-play" style="display: none"></span>&nbsp;累積病例變化
@@ -110,11 +105,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                        <p>&nbsp;</p>
-                        <div id="fb-root"></div>
-                        <div class="fb-page" data-href="https://www.facebook.com/k.olc.tw" data-width="800" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
-                    </div>
+
                 </div>
                 <p class="hidden-md hidden-lg">&nbsp;</p>
                 <div id="histogram" class="col-md-12">
@@ -132,9 +123,9 @@
             </div>
             <div id="listNoneCunli"></div>
             <div style="text-align: center;">
-                <a href="https://github.com/kiang/TainanDengueMap">網站原始碼</a> | 
+                <a href="https://github.com/happychang/fever">原始碼</a> | 
                 <a href="http://data.gov.tw/node/21025">資料來源</a> | 
-                <a href="https://github.com/lycheetw/KaohsiungDengueMap">程式參考</a> | 
+                <a href="https://github.com/kiang/TainanDengueMap">程式參考</a> | 
                 <a href="http://nidss.cdc.gov.tw/ch/NIDSS_DiseaseMap.aspx?dc=1&dt=4&disease=061">傳染病統計資料查詢系統</a>
             </div>
         </div>
