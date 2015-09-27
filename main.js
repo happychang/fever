@@ -10,11 +10,11 @@ $.getJSON('Dengue.json', function (data) {
 function initialize() {
 
     /*map setting*/
-    $('#map-canvas').height(window.outerHeight / 1.5);
+    $('#map-canvas').height(window.outerHeight / 2);
 
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         zoom: 12,
-        center: {lat: 23.00, lng: 120.30}
+        center: {lat: 23.00, lng: 120.20}
     });
 
     $.getJSON('cunli.json', function (data) {
@@ -53,18 +53,25 @@ function initialize() {
         if (k.length !== 11) {
             var num = 0;
             for (i in v) {
+		var month = new Date(v[i][0]).getMonth();
+            	if( month > 5 )
+		{
                 num += v[i][1];
+		}
             }
             if (k !== 'total') {
+		if( num > 0 )
+		{
                 ignoreNum += num;
-                block += '<div class="col-md-2">' + areas[k] + ': ' + num + '</div>';
+                block += '<div class="col-lg-2">' + areas[k] + ': ' + num + '</div>';
+		}
             } else {
                 totalNum = num;
             }
         }
     })
     block += '<div class="clearfix"><br /></div>';
-    block += '目前共有病例 ' + totalNum + ' ，無法顯示的數量為 ' + ignoreNum;
+    block += '七月起目前共有病例 ' + totalNum + ' ，無法顯示的數量為 ' + ignoreNum;
     $('div#listNoneCunli').html(block);
 
     map.data.setStyle(function (feature) {
@@ -87,7 +94,7 @@ function initialize() {
 	area = parseInt(event.feature.getProperty('Shape_Area')*10000000)/1000;
         density = parseInt(event.feature.getProperty('num') / area);
 
-        $('#content').html('<div>' + Cunli + ' ：' + event.feature.getProperty('num') + ' 例 (' + area + ' km2, ' + density + ')</div>').removeClass('text-muted');
+        $('#content').html('<div>' + Cunli + '：' + event.feature.getProperty('num') + '例(' + area + ' km2, ' + density + ')</div>').removeClass('text-muted');
     });
 
     map.data.addListener('mouseout', function (event) {
@@ -114,7 +121,7 @@ function initialize() {
     $('#playButton1').on('click', function () {
         var maxIndex = DengueTW['total'].length;
         if (false === currentPlayIndex) {
-            currentPlayIndex = 0;
+            currentPlayIndex = 125;
         } else {
             currentPlayIndex += 1;
             $(this).addClass('active disabled').find('.glyphicon').show();
@@ -143,7 +150,7 @@ function initialize() {
         }
 
         if (currentPlayIndex < maxIndex) {
-            showDayMap(new Date(DengueTW['total'][currentPlayIndex][0]), cunli);
+            showDateMap(new Date(DengueTW['total'][currentPlayIndex][0]), cunli);
             setTimeout(function () {
                 $('#playButton2').trigger('click');
             }, 300);
@@ -160,7 +167,11 @@ function createStockChart(Cunli, cunli) {
     var series = [];
 
     for (var i = 0; i < DengueTW[Cunli].length; i++) {
-        series.push([new Date(DengueTW[Cunli][i][0]).getTime(), DengueTW[Cunli][i][1]]);
+	var month = new Date(DengueTW[Cunli][i][0]).getMonth();
+        if( month > 5 )
+        {
+          series.push([new Date(DengueTW[Cunli][i][0]).getTime(), DengueTW[Cunli][i][1]]);
+        }
     }
 
     Highcharts.setOptions({
@@ -193,7 +204,7 @@ function createStockChart(Cunli, cunli) {
                 point: {
                     events: {
                         click: function () {
-                            showDayMap(new Date(this.x), cunli);
+                            showDateMap(new Date(this.x), cunli);
                         }
                     }
                 },
@@ -213,7 +224,6 @@ function showDateMap(clickedDate, cunli) {
             dd = clickedDate.getDate().toString(),
             clickedDateKey = yyyy + '-' + (mm[1] ? mm : '0' + mm[0]) + '-' + (dd[1] ? dd : '0' + dd[0]);
 
-    $('#title').html(clickedDateKey + ' 累積病例');
     cunli.forEach(function (value) {
         var key = value.getProperty('VILLAGE_ID'),
                 count = 0;
@@ -221,13 +231,17 @@ function showDateMap(clickedDate, cunli) {
         if (DengueTW[key]) {
             DengueTW[key].forEach(function (val) {
                 var recordDate = new Date(val[0]);
+	        if( recordDate.getMonth() > 5 )
+	        {
                 if (recordDate <= clickedDate) {
                     count += val[1];
                 }
+		}
             });
         }
         value.setProperty('num', count);
     });
+    $('#title').html(clickedDateKey + ' 累積病例');
 }
 
 function showDayMap(clickedDate, cunli) {

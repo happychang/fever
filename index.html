@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
-        <title>登革熱密度地圖 v1.0</title>
+        <title>登革熱密度地圖 v1.1</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
         <meta property="og:title" content="登革熱密度地圖">
@@ -20,12 +20,12 @@
                 width: 100%;
             }
             #histogram {
-                height: 40%;
+                height: 20%;
                 width: 100%;
                 min-height: 300px;
             }
             #myTabContent {
-                height: 85%;
+                height: 40%;
                 width: 100%;
                 min-height: 300px;
             }
@@ -45,31 +45,8 @@
     <body>
         <div class="container">
             <div class="row">
-                <p class="hidden-sm hidden-xs">&nbsp;</p>
-		<div id="map-canvas" class="col-md-12"></div>
-                <div id="detail" class="col-md-12">
-                    <div class="col-md-8 col-sm-12 col-xs-12">
-                        <h3 id="title"></h3>
-                        <div>人數
-                            <span class="colorBox" style="background-color: white;"></span>0
-                            <span class="colorBox" style="background-color: #87cefa;"></span>1人
-                            <span class="colorBox" style="background-color: #00bfff;"></span>2~4人
-                        </div>
-                        <div>密度
-                            <span class="colorBox" style="background-color: #00FF00;"></span><16
-                            <span class="colorBox" style="background-color: #00CC00;"></span>16~32
-                            <br class="hidden-md hidden-lg">
-                            <span class="colorBox" style="background-color: #FFFF00;"></span>32~64
-                            <span class="colorBox" style="background-color: #ffd700;"></span>64~128
-                            <br class="hidden-md hidden-lg">
-                            <span class="colorBox" style="background-color: #FF8C00;"></span>128~256
-                            <span class="colorBox" style="background-color: #FF6600;"></span>256~512
-                            <br class="hidden-md hidden-lg">
-                            <span class="colorBox" style="background-color: #FF0000;"></span>512~1024
-                            <span class="colorBox" style="background-color: #CC0000;"></span>1024~2048
-                            <span class="colorBox" style="background-color: #a020f0;"></span>>2048
-                        </div>
-                        <div style="float: right;">快速定位
+                 <div id="detail" >
+                        <div class="col-lg-4" style="float: right;">快速定位
                             <div class="btn-group">
                                 <a href="#" class="btn btn-default" onclick="map.setCenter({lat: 25.053699, lng: 121.507837});
                                         return false">台北</a>
@@ -93,35 +70,54 @@
                                         return false">台東</a>
                             </div>
                         </div>
-                        <div class="clearfix"></div>
-                        <hr>
-			<h2 id="content" class="text-muted">在地圖上滑動或點選以顯示數據</h2>
-                        <div class="btn-group btn-group-justified">
-                            <a class="btn btn-primary btn-lg" id="playButton1" href="#">
-                                <span class="glyphicon glyphicon-play" style="display: none"></span>&nbsp;累積病例變化
-                            </a>
-                            <a class="btn btn-primary btn-lg" id="playButton2" href="#">
-                                <span class="glyphicon glyphicon-play" style="display: none"></span>&nbsp;日病例變化
-                            </a>
+                        <div class="col-lg-8">人數
+                            <span class="colorBox" style="background-color: white;"></span>0
+                            <span class="colorBox" style="background-color: #87cefa;"></span>1人
+                            <span class="colorBox" style="background-color: #00bfff;"></span>2~4人
                         </div>
-                    </div>
-
+                        <div class="col-lg-8">密度
+                            <span class="colorBox" style="background-color: #00FF00;"></span><16
+                            <span class="colorBox" style="background-color: #00CC00;"></span>16~32
+                            <br class="hidden-md hidden-lg">
+                            <span class="colorBox" style="background-color: #FFFF00;"></span>32~64
+                            <span class="colorBox" style="background-color: #ffd700;"></span>64~128
+                            <br class="hidden-md hidden-lg">
+                            <span class="colorBox" style="background-color: #FF8C00;"></span>128~256
+                            <span class="colorBox" style="background-color: #FF6600;"></span>256~512
+                            <br class="hidden-md hidden-lg">
+                            <span class="colorBox" style="background-color: #FF0000;"></span>512~1024
+                            <span class="colorBox" style="background-color: #CC0000;"></span>1024~2048
+                            <span class="colorBox" style="background-color: #a020f0;"></span>>2048
+                        </div>
+			<h4 id="content" class="text-muted col-lg-5">在地圖上滑動或點選以顯示數據</h4>
+                        <h4 id="title" class="col-lg-3"></h4>
+			<div id="map-canvas" ></div>
                 </div>
-                <p class="hidden-md hidden-lg">&nbsp;</p>
-                <div id="histogram" class="col-md-12">
+                <div id="histogram" >
                     <ul id="myTab" class="nav nav-tabs">
                         <li class="active">
                             <a href="#total" data-toggle="tab">台灣</a>
                         </li>
                     </ul>
                     <div id="myTabContent" class="tab-content">
-                        <div class="text-muted pull-right">*點選下方長條圖示會在地圖上呈現當日病例分佈</div>
+                        <div class="text-muted pull-right">*點選下方長條圖示會在地圖上呈現累積病例分佈</div>
                         <div class="tab-pane fade in active" id="total"></div>
                     </div>
                 </div>
+                        <div class="btn-group btn-group-justified">
+                            <a class="btn btn-primary btn-lg" id="playButton1" href="#">
+                                <span class="glyphicon glyphicon-play" style="display: none"></span>&nbsp;累積病例變化
+                            </a>
+                        </div>
+
                 <p>&nbsp;</p>
             </div>
             <div id="listNoneCunli"></div>
+            <div style="text-align: center;">
+		<a href="http://kiang.github.io/TainanDengueMap/taiwan/">台灣2015登革熱地圖</a> | 
+                <a href="http://happychang.github.io/fever/">登革熱密度地圖</a> | 
+                <a href="http://happychang.github.io/fever30/">登革熱三十天密度地圖</a>
+            </div>
             <div style="text-align: center;">
                 <a href="https://github.com/happychang/fever">原始碼</a> | 
                 <a href="http://data.gov.tw/node/21025">資料來源</a> | 
