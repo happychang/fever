@@ -4,7 +4,7 @@ var map,
         currentPlayIndex = false,
         cunli;
 
-$.getJSON('Dengue.json', function (data) {
+$.getJSON('http://happychang.github.io/fever-data/Dengue.json', function (data) {
     DengueTW = data;
 });
 function initialize() {
@@ -17,7 +17,7 @@ function initialize() {
         center: {lat: 23.00, lng: 120.20}
     });
 
-    $.getJSON('cunli.json', function (data) {
+    $.getJSON('http://happychang.github.io/fever-data/cunli.json', function (data) {
         cunli = map.data.addGeoJson(topojson.feature(data, data.objects.cunli));
     });
 
