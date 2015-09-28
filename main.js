@@ -7,6 +7,7 @@ var map,
 $.getJSON('http://happychang.github.io/fever-data/Dengue.json', function (data) {
     DengueTW = data;
 });
+
 function initialize() {
 
     /*map setting*/
@@ -27,14 +28,6 @@ function initialize() {
                 countyId = value.getProperty('COUNTY_ID'),
                 townId = value.getProperty('TOWN_ID'),
                 count = 0;
-		
-        if (DengueTW[key]) {
-            DengueTW[key].forEach(function (val) {
-                count += val[1];
-            });
-        }
-
-        value.setProperty('num', count); 
     
         if(countyId.length === 2) {
             countyId += '000';
@@ -46,6 +39,8 @@ function initialize() {
             areas[townId] = value.getProperty('C_Name') + value.getProperty('T_Name');
         }
     });
+
+    showDateMap(new Date(), cunli);
 
     var totalNum = 0, ignoreNum = 0;
     var block = '下面病例數字未包含村里資訊，因此無法在地圖中顯示：<div class="clearfix"><br /></div>';
